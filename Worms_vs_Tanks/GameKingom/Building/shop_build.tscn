@@ -1,0 +1,69 @@
+[gd_scene load_steps=10 format=3 uid="uid://bu24v8oe05uhd"]
+
+[ext_resource type="Texture2D" uid="uid://cumllm222ut6p" path="res://assets/oak_woods_v1.0/decorations/shop_anim.png" id="1_dt8qg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tcuks"]
+atlas = ExtResource("1_dt8qg")
+region = Rect2(0, 0, 118, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h1kwr"]
+atlas = ExtResource("1_dt8qg")
+region = Rect2(118, 0, 118, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x57n1"]
+atlas = ExtResource("1_dt8qg")
+region = Rect2(236, 0, 118, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8flv1"]
+atlas = ExtResource("1_dt8qg")
+region = Rect2(354, 0, 118, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_too0b"]
+atlas = ExtResource("1_dt8qg")
+region = Rect2(472, 0, 118, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_valfv"]
+atlas = ExtResource("1_dt8qg")
+region = Rect2(590, 0, 118, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t7p48"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tcuks")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h1kwr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x57n1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8flv1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_too0b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_valfv")
+}],
+"loop": true,
+"name": &"shop_build",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hjhbd"]
+size = Vector2(428, 315)
+
+[node name="Shop_Build" type="Area2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(3.64407, 3.64407)
+sprite_frames = SubResource("SpriteFrames_t7p48")
+animation = &"shop_build"
+autoplay = "shop_build"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, 75.5)
+shape = SubResource("RectangleShape2D_hjhbd")

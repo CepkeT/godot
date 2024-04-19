@@ -1,0 +1,60 @@
+[gd_scene load_steps=4 format=3 uid="uid://dvnnms0pyafyp"]
+
+[ext_resource type="Script" path="res://GameKingom/Menu/menu_kingdom.gd" id="1_j2s3h"]
+[ext_resource type="Texture2D" uid="uid://dpgflul36v02i" path="res://assets/Wenrexa Interface UI KIT #4/PNG/Btn01.png" id="2_e56gt"]
+[ext_resource type="PackedScene" uid="uid://m8te5kfw5euc" path="res://GameKingom/Menu/bg.tscn" id="3_lxifa"]
+
+[node name="Menu" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_j2s3h")
+
+[node name="BacgroundMenu" type="VideoStreamPlayer" parent="."]
+offset_right = 1152.0
+offset_bottom = 648.0
+autoplay = true
+expand = true
+
+[node name="MenuButtonNewGame" type="Button" parent="BacgroundMenu"]
+layout_mode = 0
+offset_left = 90.0
+offset_top = 150.0
+offset_right = 210.0
+offset_bottom = 185.0
+text = "New Game"
+
+[node name="Btn01" type="Sprite2D" parent="BacgroundMenu/MenuButtonNewGame"]
+position = Vector2(60, 17)
+scale = Vector2(0.336134, 0.631579)
+texture = ExtResource("2_e56gt")
+
+[node name="MenuButtonOptions" type="Button" parent="BacgroundMenu"]
+visible = false
+layout_mode = 0
+offset_left = 90.0
+offset_top = 185.0
+offset_right = 210.0
+offset_bottom = 220.0
+text = "Options"
+
+[node name="Btn01" type="Sprite2D" parent="BacgroundMenu/MenuButtonOptions"]
+position = Vector2(60, 17)
+scale = Vector2(0.336134, 0.666667)
+texture = ExtResource("2_e56gt")
+
+[node name="MenuButtonExit" type="Button" parent="BacgroundMenu"]
+layout_mode = 0
+offset_left = 90.0
+offset_top = 220.0
+offset_right = 210.0
+offset_bottom = 255.0
+text = "Exit"
+
+[node name="Btn01" type="Sprite2D" parent="BacgroundMenu/MenuButtonExit"]
+position = Vector2(60, 17)
+scale = Vector2(0.336134, 0.666667)
+texture = ExtResource("2_e56gt")
+
+[node name="BG" parent="." instance=ExtResource("3_lxifa")]
+
+[connection signal="pressed" from="BacgroundMenu/MenuButtonNewGame" to="." method="_on_menu_button_new_game_pressed"]
+[connection signal="pressed" from="BacgroundMenu/MenuButtonExit" to="." method="_on_menu_button_exit_pressed"]
