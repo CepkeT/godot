@@ -8,7 +8,7 @@ signal mo_stamina()
 @onready var health_text = $"../HealthText"
 @onready var health_anim = $"../HealthAnim"
 
-var stamina_cost
+var stamina_cost : int
 var attack_cost = 10
 var block_cost = 5
 var slide_cost = 20
@@ -34,14 +34,14 @@ var health = max_health:
 		old_health = health
 		if difference < 0:
 			health_anim.stop()
-			health_anim.play("damage_received")
+			health_anim.play("damage_recieved")
 		elif difference > 0: 
 			health_anim.stop()
-			health_anim.play("health_received")
+			health_anim.play("health_recieved")
 			
 func _ready():
 	health_text.modulate.a = 0
-	Signals.connect("enemy_attack", Callable(self, "_on_damage_received"))
+	Signals.connect("enemy_attack", Callable(self, "_on_damage_recieved"))
 	health = max_health
 	health_bar.max_value = max_health
 	health_bar.value = health
@@ -53,7 +53,7 @@ func _physics_process(delta):
 	if stamina < 100:
 		stamina += 10 * delta
 
-func _on_damage_received(enemy_damage):
+func _on_damage_recieved(enemy_damage):
 	health -= enemy_damage
 	if health_bar.value > health_bar.max_value * 0.7:
 		health_bar.tint_progress = Color.DARK_GREEN

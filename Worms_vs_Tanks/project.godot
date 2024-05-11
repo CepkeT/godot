@@ -18,6 +18,7 @@ config/icon="res://Shared/icon.svg"
 [autoload]
 
 Signals="*res://GameKingom/GD_Scripts/Global/signals.gd"
+Global="*res://GameKingom/GD_Scripts/Global/global.gd"
 
 [display]
 
@@ -34,6 +35,10 @@ enabled=PackedStringArray("res://addons/AS2P/plugin.cfg", "res://addons/GameGUI/
 [filesystem]
 
 import/blender/enabled=false
+
+[gui]
+
+theme/custom="res://new_theme.tres"
 
 [input]
 

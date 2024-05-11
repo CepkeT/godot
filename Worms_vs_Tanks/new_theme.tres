@@ -1,0 +1,24 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://ckybxftcl1lrw"]
+
+[ext_resource type="FontFile" uid="uid://c8prjjp7bbfwa" path="res://19849.ttf" id="1_gd6uy"]
+[ext_resource type="Texture2D" uid="uid://4k4jhxbjj1ch" path="res://assets/UI_border.png" id="1_irauk"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wkpa3"]
+texture = ExtResource("1_irauk")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_uv87q"]
+texture = ExtResource("1_irauk")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+
+[resource]
+Button/fonts/font = ExtResource("1_gd6uy")
+Label/fonts/font = ExtResource("1_gd6uy")
+Panel/styles/panel = SubResource("StyleBoxTexture_wkpa3")
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_uv87q")

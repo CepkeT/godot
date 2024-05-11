@@ -27,14 +27,14 @@ var state = MOVE
 var run_speed = 1
 var combo = false
 var attack_cooldown = false
-var player_pos
 var damage_basic = 10
 var damage_multiplier = 1
 var attack_current
 var recovery = false
+var enemy
 
 func  _ready():
-	Signals.connect("enemy_attack", Callable(self, "_on_damage_received"))
+	Signals.connect("enemy_attack", Callable(self, "_on_damage_recieved"))
 	
 func _physics_process(delta):
 	match state:
@@ -69,12 +69,11 @@ func _physics_process(delta):
 		if position.y > 1242:
 			state = DEATH
 		
-	attack_current = damage_basic * damage_multiplier
+	Global.player_damage = damage_basic * damage_multiplier
 
 	move_and_slide()
 	
-	player_pos = self.position
-	Signals.emit_signal("player_position_update", player_pos)
+	Global.player_pos = self.position
 
 func move_state():
 	var direction = Input.get_axis("left", "right")
@@ -188,11 +187,12 @@ func crit_state():
 	state = MOVE
 
 func shot_state():
-	damage_multiplier = 2.5
-	velocity.x = 0
 	animPlayer.play("Shot")
 	await animPlayer.animation_finished
 	shoot()
+	damage_multiplier = 2.5
+	velocity.x = 0
+	
 	state = MOVE
 
 func block_state():
@@ -207,20 +207,21 @@ func slide_state():
 	state = MOVE
 
 func damage_state():
-	velocity.x = 0
+	
 	animPlayer.play("Hit")
 	await animPlayer.animation_finished
+	
 	state = MOVE
 
 func death_state():
 	velocity.x = 0
-	animPlayer.stop()
+	#animPlayer.stop()
 	animPlayer.play("Death")
 	await animPlayer.animation_finished
 	queue_free()
 	get_tree().change_scene_to_file.bind("res://GameKingom/Menu/menu_kingdom.tscn").call_deferred()
 
-func _on_damage_received(enemy_damage):
+func _on_damage_recieved(enemy_damage):
 	if state == BLOCK:
 		enemy_damage /= 5
 		stats.stamina -= stats.block_cost * 1.5
@@ -228,24 +229,17 @@ func _on_damage_received(enemy_damage):
 		enemy_damage = 0
 	else:
 		state = DAMAGE
+		damage_anim()
 	stats.health -= enemy_damage
 	if stats.health <= 0:
 		stats.health = 0
 		state = DEATH		
 
-func _on_hit_box_area_entered(area):
-	Signals.emit_signal("player_attack", attack_current)
-
 func  shoot():
 	var shot_ball = SHOT_BALL.instantiate()
-	shot_ball.direction = sign($Marker2D.position.x)
-	print("До добавления - позиция маркера: ", $Marker2D.global_position)
-	add_child(shot_ball)
-	print("После добавления - стартовая позиция снаряда: ", shot_ball.global_position)
+	shot_ball.direction = sign($Marker2D.global_position.x)	
 	shot_ball.position = $Marker2D.global_position
-	print("После установки - позиция снаряда: ", shot_ball.global_position)
-	print("После установки position - позиция снаряда: ", shot_ball.position)
-	print("Перед началом движения - позиция снаряда: ", shot_ball.global_position)
+	call_deferred("add_child", shot_ball)
 	state = MOVE
 
 
@@ -255,3 +249,16 @@ func _on_stats_no_stamina():
 
 func _on_stats_mo_stamina():
 	recovery = false
+
+func damage_anim():
+	velocity.x = 0
+	self.modulate = Color (1, 0, 0, 1)
+	if $AnimatedSprite2D.flip_h == true:
+		velocity.x += 200
+		velocity.y -= 100
+	else :
+		velocity.x -= 200
+		velocity.y -= 100
+	var tween = get_tree().create_tween()
+	tween.parallel().tween_property(self, "velocity", Vector2.ZERO, 0.1)
+	tween.parallel().tween_property(self, "modulate", Color (1, 1, 1, 1), 0.3)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=137 format=3 uid="uid://652o7wlgn2mx"]
+[gd_scene load_steps=138 format=3 uid="uid://652o7wlgn2mx"]
 
 [ext_resource type="Script" path="res://GameKingom/Units/Player/player.gd" id="1_fmfew"]
 [ext_resource type="Texture2D" uid="uid://jydldwck8cmh" path="res://assets/oak_woods_v1.0/character/char_blue.png" id="1_wnuq2"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bx8gwpkgyhogv" path="res://assets/oak_woods_v1.0/circle.png" id="5_7x4l6"]
 [ext_resource type="PackedScene" uid="uid://cltb5lfxfngf7" path="res://GameKingom/DamageBox/damage_box.tscn" id="6_y8kng"]
 [ext_resource type="PackedScene" uid="uid://bsp324awqbilq" path="res://GameKingom/Global/Stats.tscn" id="8_binbg"]
+[ext_resource type="PackedScene" uid="uid://c37qykm13pycm" path="res://GameKingom/UI/resources.tscn" id="9_7anrq"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xoknv"]
 
@@ -910,6 +911,18 @@ tracks/1/keys = {
 "update": 1,
 "values": ["Ball"]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AttackDirection1/DamageBox/HitBox/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.8),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_fmlvr"]
 length = 0.3
@@ -1149,6 +1162,18 @@ tracks/1/keys = {
 "update": 1,
 "values": ["Fall"]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AttackDirection1/DamageBox/HitBox/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_y72fb"]
 length = 0.4
@@ -1377,6 +1402,18 @@ tracks/1/keys = {
 "update": 1,
 "values": ["Shot"]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AttackDirection1/DamageBox/HitBox/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.57143),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_1eobd"]
 length = 0.8
@@ -1560,7 +1597,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_uhuej"]
-resource_name = "damage_received"
+resource_name = "damage_recieved"
 length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -1588,7 +1625,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_j4hmv"]
-resource_name = "health_received"
+resource_name = "health_recieved"
 length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -1618,8 +1655,8 @@ tracks/1/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_slk4o"]
 _data = {
 "RESET": SubResource("Animation_6hgte"),
-"damage_received": SubResource("Animation_uhuej"),
-"health_received": SubResource("Animation_j4hmv")
+"damage_recieved": SubResource("Animation_uhuej"),
+"health_recieved": SubResource("Animation_j4hmv")
 }
 
 [node name="Player" type="CharacterBody2D"]
@@ -1636,7 +1673,7 @@ shape = SubResource("CapsuleShape2D_xoknv")
 position = Vector2(5, -33)
 scale = Vector2(2.5, 2.5)
 sprite_frames = SubResource("SpriteFrames_tnjwo")
-animation = &"Idle"
+animation = &"Attack"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -1644,12 +1681,12 @@ libraries = {
 }
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(0.9, 0.9)
+scale = Vector2(0.51, 0.51)
+zoom = Vector2(1.9, 1.9)
 process_callback = 0
 limit_left = -5000
 limit_right = 5000
-limit_bottom = 640
-drag_horizontal_enabled = true
+limit_bottom = 350
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 position = Vector2(-2, -7)
@@ -1664,24 +1701,23 @@ occluder = SubResource("OccluderPolygon2D_gujr2")
 [node name="AttackDirection1" type="Node2D" parent="."]
 
 [node name="DamageBox" parent="AttackDirection1" instance=ExtResource("6_y8kng")]
-visible = false
 
 [node name="HurtBox" parent="AttackDirection1/DamageBox" index="0"]
-visible = false
+light_mask = 16
+visibility_layer = 128
 collision_layer = 16
 collision_mask = 0
 
 [node name="CollisionShape2D" parent="AttackDirection1/DamageBox/HurtBox" index="0"]
-visible = false
 position = Vector2(4, 0)
 
 [node name="HitBox" parent="AttackDirection1/DamageBox" index="1"]
-visible = false
-collision_layer = 0
+light_mask = 64
+visibility_layer = 32
+collision_layer = 64
 collision_mask = 32
 
 [node name="CollisionShape2D" parent="AttackDirection1/DamageBox/HitBox" index="0"]
-visible = false
 position = Vector2(35.5, -4)
 disabled = false
 
@@ -1710,7 +1746,8 @@ position = Vector2(70, -4)
 scale = Vector2(2, 2)
 gizmo_extents = 20.0
 
-[connection signal="area_entered" from="AttackDirection1/DamageBox/HitBox" to="." method="_on_hit_box_area_entered"]
+[node name="Resources" parent="." instance=ExtResource("9_7anrq")]
+
 [connection signal="mo_stamina" from="Stats" to="." method="_on_stats_mo_stamina"]
 [connection signal="no_stamina" from="Stats" to="." method="_on_stats_no_stamina"]
 

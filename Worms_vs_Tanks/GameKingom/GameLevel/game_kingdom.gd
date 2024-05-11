@@ -7,6 +7,8 @@ extends Node2D
 
 @onready var player = $Player/Player
 
+var mushroom_preload = preload("res://GameKingom/Units/Mobs/Mushroom/mushroom.tscn")
+
 enum {
 	MORNING,
 	DAY,
@@ -40,3 +42,10 @@ func morning_state():
 func evening_state():
 	light_animation.play("sunset")
 
+func _on_spawner_timeout():
+	mushrooom_spawn()
+
+func mushrooom_spawn():
+	var mushroom = mushroom_preload.instantiate()
+	mushroom.position = Vector2(randi_range(-800, -200),525)
+	$Mobs.add_child(mushroom)
